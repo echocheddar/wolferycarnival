@@ -109,25 +109,27 @@ export function onCharEvent(
     after: string | null,
     before: string | null,
 ): void {
-    if ( after == null && before != null) {
-        if (Room.charIterator().isValid())
-        {
-            currentThrow = 1
-            currentToss = 1
-            Room.removeCommand("throw")
-            Room.removeCommand("milkbottle")
-            Room.addCommand("milkbottle", new Command("play milkbottle"))
-            Room.removeCommand("toss")
-            Room.removeCommand("pickeasy")
-            Room.removeCommand("pickmedium")
-            Room.removeCommand("pickhard")
-            Room.removeCommand("ringtoss")
-            Room.addCommand("ringtoss", new Command("play ringtoss"))
-            Room.removeCommand("swing")
-            Room.removeCommand("highstriker")
-            Room.addCommand("highstriker", new Command("play highstriker"))
-        }
+    if (after != null) {
+        return
     }
+    const iterator = Room.charIterator(CharState.Awake)
+    if (Room.charIterator().isValid()) {
+        return
+    }
+    currentThrow = 1
+    currentToss = 1
+    Room.removeCommand("throw")
+    Room.removeCommand("milkbottle")
+    Room.addCommand("milkbottle", new Command("play milkbottle"))
+    Room.removeCommand("toss")
+    Room.removeCommand("pickeasy")
+    Room.removeCommand("pickmedium")
+    Room.removeCommand("pickhard")
+    Room.removeCommand("ringtoss")
+    Room.addCommand("ringtoss", new Command("play ringtoss"))
+    Room.removeCommand("swing")
+    Room.removeCommand("highstriker")
+    Room.addCommand("highstriker", new Command("play highstriker"))
 }
 
 /**
@@ -479,7 +481,7 @@ export function onCommand(
             Room.describe(`${cmdAction.char.name} tosses their ring and it misses the bottle.`)
             switch (currentToss) {
                 case 1:
-                	Room.describe(`${randomFrom(rtGoading)} You got two more tries!`)
+                    Room.describe(`${randomFrom(rtGoading)} You got two more tries!`)
                     currentToss++
                     break;
                 case 2:
